@@ -4,8 +4,8 @@
     <div class="card">
       <p>Login</p>
       <div class="form">
-        <input type="email" placeholder="email" />
-        <input type="password" placeholder="password" />
+        <input v-model="email" type="email" placeholder="email" />
+        <input v-model="password" type="password" placeholder="password" />
         <button>Login</button>
       </div>
     </div>
@@ -15,8 +15,22 @@
 <script>
 import HeaderAuth from "../components/HeaderAuth";
 export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   components: {
     HeaderAuth
+  },
+  methods: {
+    auth() {
+      this.$store.dispatch("login", {
+        email: this.email,
+        password: this.password
+      });
+    }
   }
 };
 </script>

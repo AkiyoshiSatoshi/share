@@ -1,12 +1,45 @@
 <template>
   <div class="share">
     <p>share</p>
-    <textarea></textarea>
-    <div>
+    <textarea v-model="share"></textarea>
+    <div @click="send">
       <button>Do it</button>
     </div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      share: "",
+    };
+  },
+  methos: {
+    send() {
+      if (this.share === "") {
+        alert("input contents which you will share");
+      } else {
+        axios
+          .post("https://warm-ridge-51366.herokuapp.com/api/shares", {
+            user_id: this.$store.state.user.id,
+            share: this.share,
+          })
+          .then((response) => {
+            console.log(response);
+            alert("Do share");
+            this.share = "";
+            this.$router.go({
+              path: this.$router.currentRoute.path,
+              force: true,
+            });
+          });
+      }
+    }
+  }
+};
+</script>
 
 <style scoped>
 .share {

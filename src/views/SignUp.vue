@@ -4,10 +4,10 @@
     <div class="card">
       <p>new subscribe</p>
       <div class="form">
-        <input placeholder="Username" type="text">
-        <input placeholder="Profile" type="text">
-        <input placeholder="Mail Address" type="email">
-        <input placeholder="Password" type="password">
+        <input v-model="name" placeholder="Username" type="text">
+        <input v-model="profile" placeholder="Profile" type="text">
+        <input v-model="email" placeholder="Mail Address" type="email">
+        <input v-model="password" placeholder="Password" type="password">
         <button @click="auth">new subscribe</button>
       </div>
     </div>
@@ -16,11 +16,38 @@
 
 <script>
 import HeaderAuth from "../components/HeaderAuth";
+import axios from "axios";
 export default {
+  data() {
+    return {
+      name: "",
+      profile: "",
+      email: "",
+      password: ""
+    };
+  },
   components: {
     HeaderAuth
+  },
+  methods: {
+    auth() {
+      axios
+        .post("https://warm-ridge-51366.herokuapp.com/api/resgister", {
+          name: this.name,
+          profile: this.profile,
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response);
+          this.$router.resplace("/");
+        })
+        .catch(error => {
+          alert(error);
+        });
+    }
   }
-}
+};
 </script>
 
 <style scoped>
